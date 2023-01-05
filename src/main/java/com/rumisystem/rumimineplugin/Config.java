@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import static com.rumisystem.rumimineplugin.discord.Discord.Discord_Channel;
+import static com.rumisystem.rumimineplugin.discord.Discord.BOT_TOKEN;
 
 public class Config{
     public static String Config_Path = null;
@@ -36,6 +37,7 @@ public class Config{
         config_ConfLoad();
         msg_ConfLoad();
         DiscordCh_ConfLoad();
+        Discord_ConfLoad();
         hubcom_ConfLoad();
     }
 
@@ -58,6 +60,19 @@ public class Config{
                     }
                 }
             }
+        } catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static void Discord_ConfLoad(){
+        try {
+            ObjectMapper  objectMapper = new ObjectMapper();
+            JsonNode json = objectMapper.readTree(Paths.get(Config_Path + "/Discord.json").toFile());
+            System.out.println("[ OK ]LoadConfig:" + json);
+            System.out.println("[ *** ]Setting Config...");
+
+            BOT_TOKEN = json.get("TOKEN").textValue();//トークン
         } catch(IOException ex) {
             ex.printStackTrace();
         }

@@ -21,11 +21,12 @@ public class Discord {
     public static JDA jda = null;   //JDA
     public static String[] Discord_Channel = new String[5];   //Discordのチャンネルをすべてここに
 
-    private static final String BOT_TOKEN = "ODk2MzMxMjUxMTY0NzgyNjEz.G-yVkb.B9VUzobctt2IJd9SR8BFlrgCVzAi0oHcC4xTnk";   //DiscordBOTのトークン
+    public static String BOT_TOKEN = "";   //DiscordBOTのトークン
 
     public static void main() {
         try {
             if(CONFIG_FUNCTION_DISCORD){//DiscordBOTが有効化されているか
+                System.out.println(BOT_TOKEN);
                 //されている！
                 jda = JDABuilder.createDefault(BOT_TOKEN, GatewayIntent.GUILD_MESSAGES)
                         .setRawEventsEnabled(true)
