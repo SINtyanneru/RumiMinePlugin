@@ -1,5 +1,7 @@
 package com.rumisystem.rumimineplugin;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.gson.JsonArray;
 import com.rumisystem.rumimineplugin.discord.Discord;
 
 import java.io.*;
@@ -8,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Base64;
+import java.util.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,11 +29,17 @@ public class Config{
     public static String CONFIG_MSG_SERVERLOGIN = null;
     public static String CONFIG_MSG_SERVERSWITCH = null;
     public static String CONFIG_MSG_COMMAND_SERVERLIST = null;
+    public static String CONFIG_MSG_COMMAND_CUSTOMCHAT = null;
+    public static String CONFIG_MSG_COMMAND_CUSTOMCHATBLOCK = null;
     public static boolean CONFIG_FUNCTION_DISCORD = false;
     public static boolean CONFIG_FUNCTION_HUBCOM = false;
+    public static boolean CONFIG_FUNCTION_CUSTOMCHAT = false;
 
     public static String CONFIG_HUBCOM_HUB = null;
     public static String CONFIG_HUBCOM_MSG = null;
+
+    public static List<Replace_ChatDATA> CONFIG_CUSTOMCHAT_REPLASECHAT = null;
+    public static List<Block_ChatDATA> CONFIG_CUSTOMCHAT_BLOCKCHAT = null;
 
     public static void main(){
         config_ConfLoad();
@@ -39,6 +47,8 @@ public class Config{
         DiscordCh_ConfLoad();
         Discord_ConfLoad();
         hubcom_ConfLoad();
+        replase_chat_ConfLoad();
+        block_chat_ConfLoad();
     }
 
     private static void DiscordCh_ConfLoad(){
@@ -91,6 +101,8 @@ public class Config{
             CONFIG_MSG_SERVERLEAVE = json.get("SERVER_LEAVE").textValue();//ログアウトメッセージ
             CONFIG_MSG_SERVERSWITCH = json.get("SERVER_SWITCH").textValue();//移動メッセージ
             CONFIG_MSG_COMMAND_SERVERLIST = json.get("COMMAND_SERVER_LIST").textValue();
+            CONFIG_MSG_COMMAND_CUSTOMCHAT = json.get("CUSTOM_CHAT").textValue();
+            CONFIG_MSG_COMMAND_CUSTOMCHATBLOCK = json.get("CUSTOM_CHAT_BLOCK").textValue();
         } catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -105,6 +117,7 @@ public class Config{
 
             CONFIG_FUNCTION_DISCORD = Boolean.valueOf(json.get("DiscordBOT").textValue());//機能の有効無効化
             CONFIG_FUNCTION_HUBCOM = Boolean.valueOf(json.get("HubCom").textValue());//機能の有効無効化
+            CONFIG_FUNCTION_CUSTOMCHAT = Boolean.valueOf(json.get("CustomChat").textValue());//機能の有効無効化
         } catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -123,4 +136,63 @@ public class Config{
             ex.printStackTrace();
         }
     }
+
+    private static void replase_chat_ConfLoad(){
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        List<Replace_ChatDATA> replace_chatDATA = null;
+        try {
+            StringBuilder builder = new StringBuilder();
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(Config_Path + "/replace_chat.json"), "UTF-8"))) {
+                String string = reader.readLine();
+                while (string != null){
+                    builder.append(string + System.getProperty("line.separator"));
+                    string = reader.readLine();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            replace_chatDATA = objectMapper.readValue(builder.toString(), new TypeReference<List<Replace_ChatDATA>>() {});
+
+            CONFIG_CUSTOMCHAT_REPLASECHAT = replace_chatDATA;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void block_chat_ConfLoad(){
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        List<Block_ChatDATA> block_chatDATA = null;
+        try {
+            StringBuilder builder = new StringBuilder();
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(Config_Path + "/block_chat.json")), "UTF-8"))) {
+                String string = reader.readLine();
+                while (string != null){
+                    builder.append(string + System.getProperty("line.separator"));
+                    string = reader.readLine();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            block_chatDATA = objectMapper.readValue(builder.toString(), new TypeReference<List<Block_ChatDATA>>() {});
+
+            CONFIG_CUSTOMCHAT_BLOCKCHAT = block_chatDATA;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
+class Replace_ChatDATA {
+    public String OLD;
+    public String NEW;
+}
+
+class Block_ChatDATA {
+    public String WORD;
+}
+
+//JAVAでファイル読み込むのむずかしすぎだろ！！readtoend()的なの実装しろ；；
