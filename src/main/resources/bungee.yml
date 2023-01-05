@@ -1,0 +1,9 @@
+name: RumiMinePlugin
+version: '${version}'
+main: com.rumisystem.rumimineplugin.RumiMinePlugin
+description: RumiSystem Plugin
+command:
+  rmp_reload:
+    description: ConfigReload
+  hub:
+    description: return the hub

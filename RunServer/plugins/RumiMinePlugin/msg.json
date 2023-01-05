@@ -1,0 +1,8 @@
+{
+	"PROXY_START":":ballot_box_with_check: プロキシサーバーが起動しました！",
+	"PROXY_EXIT":":no_entry_sign: プロキシサーバーが停止しました",
+	"SERVER_LOGIN":"「** %1$s **」さんがログインしました！",
+	"SERVER_LEAVE":"「** %1$s **」さんが鯖に退出しました！",
+	"SERVER_SWITCH":":twisted_rightwards_arrows: 「** %1$s **」さんが「** %2$s **」に移動しました",
+	"COMMAND_SERVER_LIST":"現在の人数は、「%1$s」人です！"
+}
