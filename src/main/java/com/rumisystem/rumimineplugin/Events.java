@@ -65,11 +65,12 @@ public class Events implements Listener {
     //チャット
     public void onChat(ChatEvent e){
         try {
-            if(CONFIG_FUNCTION_CUSTOMCHAT){//カスタムチャットが有効かぁ？
-                e.setCancelled(true);//チャットをなかったコトに(プロキシだけで処理されるようするため)
-            }
             if(!e.isCommand()){//これはコマンド？？
                 //コマンドじゃないよ！
+                if(CONFIG_FUNCTION_CUSTOMCHAT){//カスタムチャットが有効かぁ？
+                    e.setCancelled(true);//チャットをなかったコトに(プロキシだけで処理されるようするため)
+                }
+
                 Discord discord = new Discord();
                 discord.SendDiscord(e.getMessage(), e.getSender().toString());  //Discordに送信
 
