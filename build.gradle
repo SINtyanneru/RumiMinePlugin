@@ -50,6 +50,10 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:unchecked'
+}
+
 processResources {
     def props = [version: version]
     inputs.properties props

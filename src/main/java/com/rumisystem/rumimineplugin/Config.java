@@ -77,9 +77,11 @@ public class Config{
 
     private static void Discord_ConfLoad(){
         try {
+            System.out.println(Paths.get(Config_Path + "/Discord.json").toFile());
+
             ObjectMapper  objectMapper = new ObjectMapper();
             JsonNode json = objectMapper.readTree(Paths.get(Config_Path + "/Discord.json").toFile());
-            System.out.println("[ OK ]LoadConfig:" + json);
+            System.out.println("[ OK ]LoadConfig Discord:" + json);
             System.out.println("[ *** ]Setting Config...");
 
             BOT_TOKEN = json.get("TOKEN").textValue();//トークン
@@ -92,7 +94,7 @@ public class Config{
         try {
             ObjectMapper  objectMapper = new ObjectMapper();
             JsonNode json = objectMapper.readTree(Paths.get(Config_Path + "/msg.json").toFile());
-            System.out.println("[ OK ]LoadConfig:" + json);
+            System.out.println("[ OK ]LoadConfig MSG:" + json);
             System.out.println("[ *** ]Setting Config...");
 
             CONFIG_MSG_PROXYSTART = json.get("PROXY_START").textValue();//起動メッセージ
@@ -127,7 +129,7 @@ public class Config{
         try {
             ObjectMapper  objectMapper = new ObjectMapper();
             JsonNode json = objectMapper.readTree(Paths.get(Config_Path + "/hubcom.json").toFile());
-            System.out.println("[ OK ]LoadConfig:" + json);
+            System.out.println("[ OK ]LoadConfig HubCom:" + json);
             System.out.println("[ *** ]Setting Config...");
 
             CONFIG_HUBCOM_HUB = json.get("HUB").textValue();//HUb鯖を指定

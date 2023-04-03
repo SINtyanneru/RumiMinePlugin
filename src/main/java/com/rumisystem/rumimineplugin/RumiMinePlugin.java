@@ -25,7 +25,7 @@ public final class RumiMinePlugin extends Plugin {
 
         getLogger().info("==========[RSP]==========");
         getLogger().info("RSP Enabled!!!");
-        getLogger().info("RSP V1.0");
+        getLogger().info("RSP V1.1");
 
         System.out.println(String.format("ロシア人は%1$sと%2$sでできている(%3$s)", "ウォッカ", "コサック", "諸説あり"));//String.Formatのテスト！おぼえた！
 
@@ -35,7 +35,11 @@ public final class RumiMinePlugin extends Plugin {
         }
 
         Config_Path = getDataFolder().getPath();
+
+        //設定ファイルを読みこみ
         Config.main();
+
+        //Discordを起動
         Discord.main();
 
         //コマンド登録

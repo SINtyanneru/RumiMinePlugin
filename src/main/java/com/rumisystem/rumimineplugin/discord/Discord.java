@@ -25,6 +25,7 @@ public class Discord {
 
     public static void main() {
         try {
+            System.out.println(BOT_TOKEN);
             if(CONFIG_FUNCTION_DISCORD){//DiscordBOTが有効化されているか
                 System.out.println(BOT_TOKEN);
                 //されている！
